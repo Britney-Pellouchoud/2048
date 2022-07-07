@@ -54,6 +54,7 @@ class Game(tk.Frame):
 			font=c.SCORE_LABEL_FONT
 			).grid(row=0)
 		self.score_label = tk.Label(score_frame, text="0", font=c.SCORE_FONT)
+		self.score_label.grid(row=1)
 
 	def start_game(self):
 		#initialize matrix of zeroes
@@ -141,8 +142,9 @@ class Game(tk.Frame):
 					self.cells[i][j]["frame"].configure(bg=c.EMPTY_CELL_COLOR)
 					self.cells[i][j]["number"].configure(bg=c.EMPTY_CELL_COLOR, text="")
 				else:
+					#print("CELL_COLORS Value " + str(c.CELL_COLORS[cell_value]))
 					self.cells[i][j]["frame"].configure(bg=c.CELL_COLORS[cell_value])
-					self.cells[i][j]["number"].configure(bg=c.CELL_COLORS, 
+					self.cells[i][j]["number"].configure(bg=c.CELL_COLORS[cell_value], 
 						fg=c.CELL_NUMBER_COLORS[cell_value],
 						font=c.CELL_NUMBER_FONTS[cell_value],
 						text=str(cell_value)
