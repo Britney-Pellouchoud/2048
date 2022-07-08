@@ -2,7 +2,9 @@ import tkinter as tk
 import colors as c
 import random
 
+
 class Game(tk.Frame):
+	# Every game starts with a blank board
 	def __init__(self):
 		tk.Frame.__init__(self)
 		self.grid()
@@ -15,6 +17,7 @@ class Game(tk.Frame):
 		self.make_GUI()
 		self.start_game()
 
+		# Connect the arrow keys to the movements
 		self.master.bind("<Left>", self.left)
 		self.master.bind("<Right>", self.right)
 		self.master.bind("<Up>", self.up)
@@ -26,7 +29,7 @@ class Game(tk.Frame):
 
 
 	def make_GUI(self):
-		#make grid
+		# Create a GUI which corresponds to the matrix for 2048.
 		self.cells = []
 		for i in range(4):
 			row = []
@@ -45,7 +48,7 @@ class Game(tk.Frame):
 			self.cells.append(row)
 
 
-		# make score header
+		# Make score header
 		score_frame = tk.Frame(self)
 		score_frame.place(relx=.5, y=45, anchor= "center")
 		tk.Label(
@@ -57,10 +60,11 @@ class Game(tk.Frame):
 		self.score_label.grid(row=1)
 
 	def start_game(self):
-		#initialize matrix of zeroes
+
+		# Initialize matrix of zeroes
 		self.matrix = [[0] * 4 for _ in range(4)]
 
-		#fill 2 random cells with 2s
+		# Fill 2 random cells with 2s
 		row = random.randint(0,3)
 		col = random.randint(0,3)
 		self.matrix[row][col] = 2
@@ -72,6 +76,7 @@ class Game(tk.Frame):
 			text = "2"
 			)
 
+		# Find an empty square and populate it with a 2
 		while(self.matrix[row][col] != 0):
 			row = random.randint(0,3)
 			col = random.randint(0,3)
@@ -86,8 +91,10 @@ class Game(tk.Frame):
 
 		self.score = 0
 
+	
 	# Matrix Manipulation Functions
 
+	# Move everything over to the right
 	def stack(self):
 		new_matrix = [[0] * 4 for _ in range(4)]
 		for i in range(4):
@@ -98,6 +105,7 @@ class Game(tk.Frame):
 					fill_position += 1
 		self.matrix = new_matrix
 
+	# Add together tiles with matching numbers which crash
 	def combine(self):
 		for i in range(4):
 			for j in range(3):
@@ -106,6 +114,7 @@ class Game(tk.Frame):
 					self.matrix[i][j + 1] = 0
 					self.score += self.matrix[i][j]
 
+	# Reverse each element in each row
 	def reverse(self):
 		new_matrix = []
 		for i in range(4):
@@ -114,6 +123,7 @@ class Game(tk.Frame):
 				new_matrix[i].append(self.matrix[i][3-j])
 		self.matrix = new_matrix	
 
+	# Transpose the board
 	def transpose(self):
 		new_matrix = [[0] * 4 for _ in range(4)]
 		for i in range(4):
@@ -122,7 +132,6 @@ class Game(tk.Frame):
 		self.matrix = new_matrix
 
 	# Add a new 2 or 4 tile randomly to an empty cell
-
 	def add_new_tile(self):
 		row = random.randint(0,3)
 		col = random.randint(0,3)
